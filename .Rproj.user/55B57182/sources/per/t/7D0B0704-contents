@@ -1,0 +1,45 @@
+# Running MInt on simulated data
+library(GUniFrac)
+
+CMD_LINE = TRUE #If true, use command line arguments. Otherwise, use specified values in script (for testing purposes)
+
+#Input simulation number
+if (CMD_LINE) {
+  args = commandArgs(trailingOnly = TRUE)
+  sim_number = as.numeric(args[1])
+  helper_function_file = args[2]
+  dir = args[3]
+  output_dir = args[4]
+  rarefy = as.logical(args[5])
+  # lam = NULL
+  # if (length(args)>5) {
+  #   lam = as.numeric(args[6])
+  # }
+} else {
+  sim_number= 1
+  helper_function_file = "~/research/code_library/mint_CC.R"
+  dir = "/mnt/GREENWOOD_SCRATCH/kevin.mcgregor/stan_multinom_normal/sim_study_data/n50_otu5_p3/sim_data"
+  output_dir = "/mnt/GREENWOOD_SCRATCH/kevin.mcgregor/stan_multinom_normal/sim_study_data/n50_otu5_p3/mint_est"
+  rarefy = TRUE
+  #lam = NULL
+}
+
+#source(helper_function_file)
+
+basename = "sim_rep"
+fname = paste0(dir, "/", basename, sim_number, ".RData")
+load(fname)
+
+# Should we rarify first?
+if (!is.na(rarefy) & rarefy) {
+   rare_counts = Rarefy(counts_cc)$otu.tab.rff
+} else {
+   rare_counts = counts_cc
+}
+
+covars.df = data.frame(covars)
+#Need to get rid of last column of counts_cc so the estimated matrix is the same as the multinom model
+mint_est = mintalt::mint_CC(rare_counts[,-NCOL(counts_cc)], status, dir, covars.df[,-1], formula=~V3+V4, 
+                   multicore=TRUE, sim_number=sim_number)
+
+save(mint_est, rare_counts, file=paste0(output_dir, "/", "mint_est", sim_number, ".RData"))

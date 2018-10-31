@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1531232726367.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2881375689",
+    "id" : "9EB6AC99",
+    "lastKnownWriteTime" : 1496609881,
+    "last_content_update" : 1496609881,
+    "path" : "/mnt/GREENWOOD_JBOD1/GREENWOOD_BACKUP/home/kevin.mcgregor/research/code_library/mint_CC.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "47,0",
+        "scrollLine" : "31"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

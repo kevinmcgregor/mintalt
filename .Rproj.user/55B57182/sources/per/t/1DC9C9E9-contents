@@ -1,0 +1,61 @@
+
+#' Title
+#'
+#' @param otu_counts 
+#' @param status 
+#' @param dir 
+#' @param covars 
+#' @param formula 
+#' @param multicore 
+#' @param sim_number 
+#'`
+#' @param lambda 
+#'`@import parallel
+#' @return
+#' @export
+#'
+#' @examples
+mint_CC = function(otu_counts, status, dir, covars=NULL, formula=~1, multicore=TRUE,
+                   sim_number=NULL, lambda=NULL) {
+  require(MInt, quietly = TRUE)
+  require(parallel, quietly = TRUE)
+  
+  #Making directory for temporary MInt files
+  new_dir = paste(dir, "mint_temp_files", sep="/")
+  system(paste0("mkdir -p ", new_dir))
+  basenames = paste0(c("case_table","control_table","case_frame","control_frame"),sim_number,".txt")
+  fnames = paste(new_dir, basenames, sep = "/")
+  
+  if (is.null(rownames(otu_counts))) rownames(otu_counts) = 1:NROW(otu_counts)
+  
+  #Outputting data to temp MInt files
+  output_counts_case = data.frame(Observations=rownames(otu_counts[status==1,]), 
+                                  otu_counts[status==1,], stringsAsFactors = FALSE)
+  write.table(output_counts_case, file=fnames[1], quote = FALSE, row.names=FALSE)
+  output_counts_control = data.frame(Observations=rownames(otu_counts[status==0,]), 
+                                     otu_counts[status==0,], stringsAsFactors = FALSE)
+  write.table(output_counts_control, file=fnames[2], quote = FALSE, row.names=FALSE)
+  if (is.null(covars)) {
+    output_design_case = data.frame(Observations=rownames(otu_counts[status==1,]), 
+                                    intercept=rep(1,NROW(otu_counts[status==1,])))
+    output_design_control = data.frame(Observations=rownames(otu_counts[status==0,]), 
+                                       intercept=rep(1,NROW(otu_counts[status==0,])))
+  } else {
+    output_design_case = data.frame(Observations=rownames(otu_counts[status==1,]), 
+                                    intercept=rep(1,NROW(otu_counts[status==1,])), covars[status==1,])
+    output_design_control = data.frame(Observations=rownames(otu_counts[status==0,]), 
+                                       intercept=rep(1,NROW(otu_counts[status==0,])), covars[status==0,])
+  }
+  write.table(output_design_case, file=fnames[3], quote = FALSE, row.names = FALSE)
+  write.table(output_design_control, file=fnames[4], quote = FALSE, row.names = FALSE)
+  
+  #Setting up MInt objects
+  n.cores = ifelse(multicore, 2, 1)
+  mint_objects = vector("list",length=2)
+  mint_objects[[1]] = mint(fnames[1], fnames[3], fmla=formula)
+  mint_objects[[2]] = mint(fnames[2], fnames[4], fmla=formula)
+  
+  mint_est = mclapply(mint_objects, estimate, mc.cores = n.cores, lambda=lambda)
+  
+  return(mint_est)
+}

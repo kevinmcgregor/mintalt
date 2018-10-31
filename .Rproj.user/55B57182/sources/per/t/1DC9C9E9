@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1531232770077.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3484562692",
+    "id" : "1DC9C9E9",
+    "lastKnownWriteTime" : 1531232914,
+    "last_content_update" : 1531232914775,
+    "path" : "/mnt/GREENWOOD_JBOD1/GREENWOOD_BACKUP/home/kevin.mcgregor/my_packages/MInt_alt/R/mint_CC.R",
+    "project_path" : "R/mint_CC.R",
+    "properties" : {
+        "cursorPosition" : "18,50",
+        "scrollLine" : "13",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

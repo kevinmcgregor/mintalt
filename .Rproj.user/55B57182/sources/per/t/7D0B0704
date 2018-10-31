@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1531232609674.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1997288914",
+    "id" : "7D0B0704",
+    "lastKnownWriteTime" : 1531233170,
+    "last_content_update" : 1531233170209,
+    "path" : "/mnt/GREENWOOD_JBOD1/GREENWOOD_BACKUP/home/kevin.mcgregor/research/stan_multinom_normal_model/sim_study/mint_simulation.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "42,57",
+        "scrollLine" : "28"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
